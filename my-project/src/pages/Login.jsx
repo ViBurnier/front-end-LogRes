@@ -1,23 +1,37 @@
 import axios from "axios";
+import config from "../config/index";
 
-function formDataToJsonMapper(email, password){
-    let newData = {
-        email: email,
-        password: password
-    }
+// function formDataToJsonMapper(email, password){
+//     let newData = {
+//         email: email,
+//         password: password
+//     }
 
-    return JSON.stringify(newData)
-}
+//     return JSON.stringify(newData)
+// }
 
 async function formHandle(e) {
-    e.preventDefault();
-   
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+  e.preventDefault();
 
-    axios.
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+
+  // const jsonData = formDataToJsonMapper(email, password)
+
+  const newData = {
+    email: email,
+    password: password,
+  };
+
+  const axiosConfig = { headers: { "Content-Type": "application/json" } };
+
+  try {
+    const response = await axios.post(config.BACKEND_URL, newData, axiosConfig);
+    console.log("Resposta da API:", response.data);
+  } catch (error) {
+    console.error("Erro no login:", error.response?.data || error.message);
+  }
 }
-
 
 function Login() {
   // const [email, setEmail] = useState("")
@@ -28,16 +42,22 @@ function Login() {
       <div className=" w-200 h-190 bg-blue-500 rounded-xl">
         <h1>Bem-Vindo</h1>
 
-        <div className="home-form" >
-            <form onSubmit={async (e) =>  await formHandle(e)}>
-            <p><input type="text" name="email" placeholder="EMAIL" /></p>
-            <p><input type="text" name="password" placeholder="PASSWORD" /></p>
+        <div className="home-form">
+          <form onSubmit={async (e) => await formHandle(e)}>
+            <p>
+              <input type="text" name="email" placeholder="EMAIL" />
+            </p>
+            <p>
+              <input type="text" name="password" placeholder="PASSWORD" />
+            </p>
 
-            <p><input type="submit" value="Login" /></p>
-            </form>
+            <p>
+              <input type="submit" value="Login" />
+            </p>
+          </form>
+
+          
         </div>
-
-        
       </div>
     </div>
   );
