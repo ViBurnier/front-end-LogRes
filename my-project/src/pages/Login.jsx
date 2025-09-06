@@ -1,13 +1,23 @@
-function formHandle(e) {
+import axios from "axios";
+
+function formDataToJsonMapper(email, password){
+    let newData = {
+        email: email,
+        password: password
+    }
+
+    return JSON.stringify(newData)
+}
+
+async function formHandle(e) {
     e.preventDefault();
    
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    console.log(email)
-    console.log(password)
-
+    axios.
 }
+
 
 function Login() {
   // const [email, setEmail] = useState("")
@@ -19,7 +29,7 @@ function Login() {
         <h1>Bem-Vindo</h1>
 
         <div className="home-form" >
-            <form onSubmit={function(e){formHandle(e)}}>
+            <form onSubmit={async (e) =>  await formHandle(e)}>
             <p><input type="text" name="email" placeholder="EMAIL" /></p>
             <p><input type="text" name="password" placeholder="PASSWORD" /></p>
 
