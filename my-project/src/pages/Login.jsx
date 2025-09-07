@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../config/index";
-
+import '../css/Login.css'
 // function formDataToJsonMapper(email, password){
 //     let newData = {
 //         email: email,
@@ -26,39 +26,49 @@ async function formHandle(e) {
   const axiosConfig = { headers: { "Content-Type": "application/json" } };
 
   try {
-    const response = await axios.post(config.BACKEND_URL, newData, axiosConfig);
+    const response = await axios.post(`${config.BACKEND_URL}account/login`, newData, axiosConfig);
     console.log("Resposta da API:", response.data);
   } catch (error) {
-    console.error("Erro no login:", error.response?.data || error.message);
+     if (error.response) {
+            const { mensagem, code } = error.response.data;
+            console.error("Erro:", mensagem, "Código:", code);
+            
+        } else {
+            console.error("Erro de rede:", error);
+        }
   }
 }
 
 function Login() {
-  // const [email, setEmail] = useState("")
-  // const [senha, setSenha] = useState("")
+  
+  // mar@example.com
+  //   @Segura789
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className=" w-200 h-190 bg-blue-500 rounded-xl">
-        <h1>Bem-Vindo</h1>
 
-        <div className="home-form">
-          <form onSubmit={async (e) => await formHandle(e)}>
-            <p>
-              <input type="text" name="email" placeholder="EMAIL" />
-            </p>
-            <p>
-              <input type="text" name="password" placeholder="PASSWORD" />
-            </p>
+      <div className=" flex justify-center items-center grid grid-rows w-120 h-150 rounded-2xl form-login p-2">
 
-            <p>
-              <input type="submit" value="Login" />
-            </p>
+
+          <p className="flex justify-center">LogRes</p>
+        <div>
+
+          <form className=" h-85  grid grid-rows-4" onSubmit={async (e) => await formHandle(e)}>
+              
+
+              <input className="row-1 border-2 border-black" type="text" name="email" placeholder="EMAIL" />
+            
+              <input className="row-2 border-2 border-black" type="text" name="password" placeholder="PASSWORD" />
+            
+              <input className="row-4 border-2 border-black" type="submit" value="Login" />
+            
           </form>
 
-          
+          <p className="flex justify-center bg-red-600 rounded-md "></p>
         </div>
+
       </div>
+
     </div>
   );
 }

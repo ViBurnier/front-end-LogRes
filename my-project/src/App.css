@@ -1,6 +1,7 @@
 :root{
     background:#F0A202 ;
 
+    
     --buttons: #00798c;
 }
 
@@ -9,6 +10,7 @@
 }
 
 .text-f{
-    font-size: large;
+    font-size: larger;
     font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
 }
