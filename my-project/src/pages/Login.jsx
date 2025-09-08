@@ -29,24 +29,21 @@ async function formHandle(e) {
     const response = await axios.post(`${config.BACKEND_URL}account/login`, newData, axiosConfig);
 
     console.log("Resposta da API:", response.data);
-  } catch (error) {
+  }
+  
+  catch (error) {
       if (error.response) {
       const data = error.response.data;
-      const status = error.response.status;
+      //const status = error.response.status;
       const p = document.getElementById("errorMensagem");
 
-      if (status === 400 && data.errors) {
-        // Pega a primeira mensagem de erro de validação
-        const firstErrorMessage = data.errors[0].defaultMessage || 'Erro desconhecido';
+      const email = document.getElementById('email')
+      const password = document.getElementById('password')
 
-        // Atualiza o <p id="maa">
-        p.innerText = firstErrorMessage;
-      } else {
-        
-        p.innerHTML = data.password + "<br>" + data.email;
-        p.innerHTML = data.mensagem
-
-        
+      if(email.value == "" || password.value == ""){
+        p.innerHTML = "Preencha todos os campos."
+      }else{
+        p.innerHTML = data.mensagem;       
       }
 
     } else {
