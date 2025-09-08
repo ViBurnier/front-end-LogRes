@@ -24,19 +24,34 @@ async function formHandle(e) {
   };
 
   const axiosConfig = { headers: { "Content-Type": "application/json" } };
-
+  
   try {
     const response = await axios.post(`${config.BACKEND_URL}account/login`, newData, axiosConfig);
+
     console.log("Resposta da API:", response.data);
   } catch (error) {
-     if (error.response) {
-            const { mensagem, code } = error.response.data;
-            console.error("Erro:", mensagem, "Código:", code);
-            
-        } else {
-            console.error("Erro de rede:", error);
-        }
-  }
+      if (error.response) {
+      const data = error.response.data;
+      const status = error.response.status;
+      const p = document.getElementById("errorMensagem");
+
+      if (status === 400 && data.errors) {
+        // Pega a primeira mensagem de erro de validação
+        const firstErrorMessage = data.errors[0].defaultMessage || 'Erro desconhecido';
+
+        // Atualiza o <p id="maa">
+        p.innerText = firstErrorMessage;
+      } else {
+        
+        p.innerHTML = data.password + "<br>" + data.email;
+        p.innerHTML = data.mensagem
+
+        
+      }
+
+    } else {
+      console.error("Erro de rede:", error);
+    }  }
 }
 
 function Login() {
@@ -56,15 +71,15 @@ function Login() {
           <form className=" h-85  grid grid-rows-4" onSubmit={async (e) => await formHandle(e)}>
               
 
-              <input className="row-1 border-2 border-black" type="text" name="email" placeholder="EMAIL" />
+              <input className="row-1 border-2 border-black" id="email" type="text" name="email" placeholder="EMAIL" />
             
-              <input className="row-2 border-2 border-black" type="text" name="password" placeholder="PASSWORD" />
+              <input className="row-2 border-2 border-black" id="password" type="text" name="password" placeholder="PASSWORD" />
             
               <input className="row-4 border-2 border-black" type="submit" value="Login" />
             
           </form>
 
-          <p className="flex justify-center bg-red-600 rounded-md "></p>
+          <p className="flex justify-center bg-red-600 rounded-md" id="errorMensagem"></p>
         </div>
 
       </div>
